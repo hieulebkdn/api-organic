@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  resources :tbl_categories
+  namespace :v1 do
+    resources :categories
+  end
 end
