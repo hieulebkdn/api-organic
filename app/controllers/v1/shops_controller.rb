@@ -1,9 +1,9 @@
 class V1::ShopsController < ApplicationController
-      before_action :set_shop, only: [:show, :update, :destroy]
+  before_action :set_shop, only: [:show, :update, :destroy]
 
   # GET /shops
   def index
-    @shops = Shop.all.pluck :id, :name
+    @shops = Shop.all
 
     render json: @shops
   end

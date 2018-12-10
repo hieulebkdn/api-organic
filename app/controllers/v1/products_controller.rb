@@ -3,7 +3,7 @@ class V1::ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all.pluck :name, :stock, :price
+    @products = Product.all.select :id, :name, :price, :unit, :stock
 
     render json: @products
   end
