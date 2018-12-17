@@ -4,6 +4,6 @@ Rails.application.routes.draw do
     resources :products
     resources :shops
     resources :users
-    post 'auth/signup', to: 'users#create'
   end
+  post 'authenticate', to: 'authentication#authenticate'
 end

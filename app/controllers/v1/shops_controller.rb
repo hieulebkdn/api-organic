@@ -1,5 +1,6 @@
 class V1::ShopsController < ApplicationController
   before_action :set_shop, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_request
 
   # GET /shops
   def index

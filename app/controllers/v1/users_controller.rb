@@ -1,5 +1,7 @@
 class V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  # skip_before_action :authenticate_request
+  before_action :authenticate_admin
 
   # GET /users
   def index

@@ -3,12 +3,15 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.5.3"
 
-gem 'faker'
+gem "faker"
 gem "bcrypt", "~> 3.1.7"
 gem "paperclip"
 gem "jbuilder", "~> 2.5"
 gem "omniauth"
 gem "devise_token_auth"
+gem "jwt"
+gem "simple_command"
+gem "dotenv-rails"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "~> 5.2.1"
