@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :products
     resources :shops
+    resources :users
+    post 'auth/signup', to: 'users#create'
   end
 end

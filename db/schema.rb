@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2018_12_16_030749) do
 
   create_table "hibernate_sequence", id: false, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "next_val"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "ref_shop_product", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "tbl_product_id", null: false
-    t.integer "tbl_farm_id", null: false
     t.integer "tbl_shop_id", null: false
     t.index ["tbl_product_id"], name: "fk_ref_farm_product_tbl_product1_idx"
     t.index ["tbl_shop_id"], name: "fk_ref_shop_product_tbl_shop1_idx"
@@ -106,12 +105,18 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "stock", limit: 2, null: false, unsigned: true
     t.string "sku", limit: 45
     t.integer "tbl_category_id", null: false
+    t.binary "avatar"
+    t.integer "rating", default: 5, null: false
+    t.integer "buy", null: false
     t.index ["sku"], name: "sku_UNIQUE", unique: true
     t.index ["tbl_category_id"], name: "fk_tbl_product_tbl_category1_idx"
   end
 
-  create_table "tbl_product_description", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "tbl_product_description", id: :string, limit: 45, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "tbl_product_id", null: false
+    t.integer "purchases", null: false
+    t.integer "review", null: false
+    t.text "description", null: false
     t.index ["tbl_product_id"], name: "fk_tbl_product_description_tbl_product1_idx"
   end
 
@@ -135,18 +140,18 @@ ActiveRecord::Schema.define(version: 0) do
     t.binary "image"
   end
 
-  create_table "tbl_user", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "username", limit: 80, null: false
+  create_table "tbl_user", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", null: false
     t.string "phone", limit: 15, null: false
-    t.text "password"
+    t.string "password_digest"
     t.integer "tbl_rank_id"
     t.integer "tbl_shop_id"
+    t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.timestamp "updated_at"
     t.index ["email"], name: "email_UNIQUE", unique: true
     t.index ["phone"], name: "phone_UNIQUE", unique: true
     t.index ["tbl_rank_id"], name: "fk_tbl_user_tbl_rank1_idx"
     t.index ["tbl_shop_id"], name: "fk_tbl_user_tbl_shop1_idx"
-    t.index ["username"], name: "username_UNIQUE", unique: true
   end
 
   add_foreign_key "ref_role_permission", "tbl_permission", name: "fk_ref_role_permission_tbl_permission1"

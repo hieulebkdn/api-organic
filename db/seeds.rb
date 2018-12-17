@@ -5,3 +5,23 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+User.create! email: "admin@academy.org", phone: Faker::PhoneNumber.cell_phone,
+password: "foobar", password_confirmation: "foobar", tbl_rank_id: 1
+
+20.times do |n|
+  email = "user-#{n+1}@organic.org"
+  password = "matkhau"
+  User.create! email: email, password: password, password_confirmation: password,
+  phone: Faker::PhoneNumber.cell_phone,
+  tbl_rank_id: Faker::Number.between(1,4)
+end
+
+10.times do |n|
+  email = "moderator-#{n+1}@organic.org"
+  password = "matkhau"
+  User.create! email: email, password: password, password_confirmation: password,
+  phone: Faker::PhoneNumber.cell_phone,
+  tbl_rank_id: Faker::Number.between(1,3), tbl_shop_id: Faker::Number.between(1,5)
+end
