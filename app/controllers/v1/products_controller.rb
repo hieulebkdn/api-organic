@@ -4,7 +4,7 @@ class V1::ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all.select :id, :name, :price, :unit, :stock
+    @products = Product.all.select :id, :name, :price, :unit, :stock, :rating, :buy
 
     render json: @products
   end
@@ -17,7 +17,6 @@ class V1::ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
-
     if @product.save
       render json: @product, status: :created, location: @product
     else
@@ -47,6 +46,6 @@ class V1::ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:name, :price, :unit, :stock, :sku, :tbl_category_id)
+      params.permit(:name, :price, :unit, :stock, :sku, :tbl_category_id)
     end
   end

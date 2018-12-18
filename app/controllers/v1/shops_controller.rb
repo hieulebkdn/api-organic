@@ -5,7 +5,6 @@ class V1::ShopsController < ApplicationController
   # GET /shops
   def index
     @shops = Shop.all
-
     render json: @shops
   end
 

@@ -12,6 +12,8 @@ gem "devise_token_auth"
 gem "jwt"
 gem "simple_command"
 gem "dotenv-rails"
+gem "carrierwave"
+gem "cloudinary"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "~> 5.2.1"
