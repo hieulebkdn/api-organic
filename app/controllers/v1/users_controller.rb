@@ -1,7 +1,7 @@
 class V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  # skip_before_action :authenticate_request
-  before_action :authenticate_admin
+  skip_before_action :authenticate_request
+  # before_action :authenticate_admin
 
   # GET /users
   def index
@@ -39,6 +39,12 @@ class V1::UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
+  end
+
+  def fetch_moderator
+    @moderator_ids = RefUserRole.where(tbl_role_id: 2).pluck(:tbl_user_id)
+    @users = User.select(:id, :email, :phone, :tbl_shop_id).moderators(@moderator_ids)
+    render json: @users, :include => {:shop => {:only => :name}, :account => {:only => :name}}
   end
 
   private

@@ -4,9 +4,16 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   has_many :ref_user_role, foreign_key: :tbl_user_id
+  belongs_to :shop, foreign_key: :tbl_shop_id
+  has_one :account, foreign_key: :tbl_user_id
 
   validates :email, presence: true, uniqueness: {case_sensitive: false}
   validates :password, length: {minimum: 6}, presence: true, allow_nil: true
+
+  scope :moderators, ->(list_id){where "id IN (?)",list_id }
+
+  delegate :name, :to => :shop, allow_nil: true, prefix: true
+  delegate :name, :to => :account, allow_nil: true, prefix: true
 
   has_secure_password
 

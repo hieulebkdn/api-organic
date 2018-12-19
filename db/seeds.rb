@@ -7,21 +7,41 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.create! email: "admin@academy.org", phone: Faker::PhoneNumber.cell_phone,
-password: "foobar", password_confirmation: "foobar", tbl_rank_id: 1
+# User.create! email: "admin@academy.org", phone: Faker::PhoneNumber.cell_phone,
+# password: "foobar", password_confirmation: "foobar", tbl_rank_id: 1
+
+# 20.times do |n|
+#   email = "user-#{n+1}@organic.org"
+#   password = "matkhau"
+#   User.create! email: email, password: password, password_confirmation: password,
+#   phone: Faker::PhoneNumber.cell_phone,
+#   tbl_rank_id: Faker::Number.between(1,4)
+# end
+
+# 10.times do |n|
+#   email = "moderator-#{n+1}@organic.org"
+#   password = "matkhau"
+#   User.create! email: email, password: password, password_confirmation: password,
+#   phone: Faker::PhoneNumber.cell_phone,
+#   tbl_rank_id: Faker::Number.between(1,3), tbl_shop_id: Faker::Number.between(1,5)
+# end
+# # RefUserRole.create! tbl_user_id: 1, tbl_role_id:1
+# 20.times do |n|
+#   RefUserRole.create! tbl_user_id: (n+1)*10+1, tbl_role_id: 3
+# end
+# 10.times do |n|
+  # RefUserRole.create! tbl_user_id: (n+21)*10+1, tbl_role_id: 2
+# end
+
+Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: 1
 
 20.times do |n|
-  email = "user-#{n+1}@organic.org"
-  password = "matkhau"
-  User.create! email: email, password: password, password_confirmation: password,
-  phone: Faker::PhoneNumber.cell_phone,
-  tbl_rank_id: Faker::Number.between(1,4)
+  Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+  address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+1)*10+1
 end
 
 10.times do |n|
-  email = "moderator-#{n+1}@organic.org"
-  password = "matkhau"
-  User.create! email: email, password: password, password_confirmation: password,
-  phone: Faker::PhoneNumber.cell_phone,
-  tbl_rank_id: Faker::Number.between(1,3), tbl_shop_id: Faker::Number.between(1,5)
+  Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+  address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+21)*10+1
 end

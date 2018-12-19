@@ -4,7 +4,7 @@ class V1::ShopsController < ApplicationController
 
   # GET /shops
   def index
-    @shops = Shop.all
+    @shops = Shop.all.select(:id, :name, :description)
     render json: @shops
   end
 
