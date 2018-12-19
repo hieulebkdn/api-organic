@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :products
     resources :shops
     resources :users
-    get 'moderators', to: 'users#fetch_moderator'
+    get 'moderators', to: 'users#fetch_all_moderators'
   end
   post 'authenticate', to: 'authentication#authenticate'
 end

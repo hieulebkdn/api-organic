@@ -41,7 +41,7 @@ class V1::UsersController < ApplicationController
     @user.destroy
   end
 
-  def fetch_moderator
+  def fetch_all_moderators
     @moderator_ids = RefUserRole.where(tbl_role_id: 2).pluck(:tbl_user_id)
     @users = User.select(:id, :email, :phone, :tbl_shop_id).moderators(@moderator_ids)
     render json: @users, :include => {:shop => {:only => :name}, :account => {:only => :name}}
