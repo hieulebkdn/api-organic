@@ -30,7 +30,7 @@ class V1::UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: @user, :include => {:account => {only: [:name, :address, :city]}}
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -43,8 +43,14 @@ class V1::UsersController < ApplicationController
 
   def fetch_all_moderators
     @moderator_ids = RefUserRole.where(tbl_role_id: 2).pluck(:tbl_user_id)
-    @users = User.select(:id, :email, :phone, :tbl_shop_id).moderators(@moderator_ids)
+    @users = User.select(:id, :email, :phone, :tbl_shop_id).get_in_list(@moderator_ids)
     render json: @users, :include => {:shop => {:only => :name}, :account => {:only => :name}}
+  end
+
+  def fetch_all_normal_users
+    @user_ids = RefUserRole.where(tbl_role_id: 3).pluck(:tbl_user_id)
+    @users = User.select(:id,:email,:phone, :tbl_shop_id).get_in_list(@user_ids)
+    render json: @users, :include => {:account => {:only => :name}}
   end
 
   private

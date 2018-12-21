@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: {case_sensitive: false}
   validates :password, length: {minimum: 6}, presence: true, allow_nil: true
 
-  scope :moderators, ->(list_id){where "id IN (?)",list_id }
+  scope :get_in_list, ->(list_id){where "id IN (?)",list_id }
 
   delegate :name, :to => :shop, allow_nil: true, prefix: true
   delegate :name, :to => :account, allow_nil: true, prefix: true
