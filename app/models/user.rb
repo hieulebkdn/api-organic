@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  has_many :ref_user_role, foreign_key: :tbl_user_id
+  has_many :ref_user_role, foreign_key: :tbl_user_id, dependent: :destroy
   belongs_to :shop, foreign_key: :tbl_shop_id
   has_one :account, foreign_key: :tbl_user_id, dependent: :destroy
 

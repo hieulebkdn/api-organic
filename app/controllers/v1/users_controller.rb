@@ -1,18 +1,19 @@
 class V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:update, :destroy]
   skip_before_action :authenticate_request
   # before_action :authenticate_admin
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.select(:id, :email, :phone).all
 
     render json: @users
   end
 
   # GET /users/1
   def show
-    render json: @user
+    @user = User.select(:id, :email, :phone, :created_at).where(id: params[:id]).take
+    render json: @user, :include => {:account => {only: [:name, :city, :address, :gender, :dob]}}
   end
 
   # POST /users
