@@ -33,15 +33,22 @@
   # RefUserRole.create! tbl_user_id: (n+21)*10+1, tbl_role_id: 2
 # end
 
-Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
-address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: 1
+# Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+# address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: 1
+
+# 20.times do |n|
+#   Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+#   address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+1)*10+1
+# end
+
+# 10.times do |n|
+#   Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
+#   address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+21)*10+1
+# end
+
+list_user_ids = User.all.pluck :id
+list_product_ids = Product.all.pluck :id
 
 20.times do |n|
-  Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
-  address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+1)*10+1
-end
-
-10.times do |n|
-  Account.create! name: Faker::LeagueOfLegends.champion, city: Faker::Address.city,
-  address: Faker::Address.street_address, dob: Faker::Date.between(9000.days.ago, 6000.days.ago), tbl_user_id: (n+21)*10+1
+  Review.create! comment: Faker::Lorem.sentence, rating: Faker::Number.between(1,5), tbl_user_id: list_user_ids.sample, tbl_product_id: list_product_ids.sample
 end

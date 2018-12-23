@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :ref_user_role, foreign_key: :tbl_user_id, dependent: :destroy
   belongs_to :shop, foreign_key: :tbl_shop_id
   has_one :account, foreign_key: :tbl_user_id, dependent: :destroy
+  has_many :reviews, foreign_key: :tbl_user_id, dependent: :destroy
 
   validates :email, presence: true, uniqueness: {case_sensitive: false}
   validates :password, length: {minimum: 6}, presence: true, allow_nil: true

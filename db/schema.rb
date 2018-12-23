@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.index ["tbl_shop_id"], name: "fk_ref_shop_product_tbl_shop1_idx"
   end
 
-  create_table "ref_user_role", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "ref_user_role", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "tbl_user_id", null: false
     t.integer "tbl_role_id", null: false
     t.index ["tbl_role_id"], name: "fk_ref_user_role_tbl_role1_idx"
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.string "name", null: false
     t.string "city"
     t.text "address", limit: 16777215
-    t.boolean "gender"
-    t.datetime "dob"
+    t.boolean "gender", default: true
+    t.date "dob"
     t.integer "tbl_user_id", null: false
     t.index ["tbl_user_id"], name: "fk_tbl_account_tbl_user1_idx"
   end
@@ -68,14 +68,15 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   end
 
   create_table "tbl_order", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "order_status_code", limit: 45, null: false
+    t.string "order_status_code", limit: 45
     t.datetime "date_order_placed"
     t.integer "tbl_payment_id", null: false
-    t.string "ref_order_status_code", limit: 1, null: false
+    t.string "ref_order_status_code", limit: 1
     t.integer "tbl_discount_code", null: false
-    t.index ["ref_order_status_code"], name: "fk_tbl_order_ref_order_status1_idx"
-    t.index ["tbl_discount_code"], name: "fk_tbl_order_tbl_discount1_idx"
-    t.index ["tbl_payment_id"], name: "fk_tbl_order_tbl_payment1_idx"
+    t.integer "tbl_user_id", null: false
+    t.index ["ref_order_status_code"], name: "a_idx"
+    t.index ["tbl_discount_code"], name: "aa_idx"
+    t.index ["tbl_payment_id"], name: "aaa_idx"
   end
 
   create_table "tbl_order_item", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -85,7 +86,6 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.string "ref_order_item_status_code", limit: 1, null: false
     t.index ["ref_order_item_status_code"], name: "fk_tbl_order_item_ref_order_item_status1_idx"
     t.index ["tbl_order_id"], name: "fk_tbl_order_item_tbl_order1_idx"
-    t.index ["tbl_product_id"], name: "fk_tbl_order_item_tbl_product1_idx"
   end
 
   create_table "tbl_payment", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -98,12 +98,12 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.string "action", limit: 4, null: false
   end
 
-  create_table "tbl_product", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "tbl_product", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false, collation: "utf8_general_ci"
     t.decimal "price", precision: 13, scale: 2, null: false, unsigned: true
-    t.string "unit", limit: 45, null: false
+    t.string "unit", limit: 45, null: false, collation: "utf8_general_ci"
     t.integer "stock", limit: 2, null: false, unsigned: true
-    t.string "sku", limit: 45
+    t.string "sku", limit: 45, collation: "utf8_general_ci"
     t.integer "tbl_category_id", null: false
     t.binary "avatar"
     t.integer "rating", default: 5, null: false
@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.string "email", null: false
     t.string "phone", limit: 15, null: false
     t.string "password_digest"
-    t.integer "tbl_rank_id"
+    t.integer "tbl_rank_id", default: 4
     t.integer "tbl_shop_id"
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.timestamp "updated_at"
@@ -165,12 +165,13 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   add_foreign_key "ref_user_role", "tbl_user", name: "FKqvs4e1phqw2en9iuboc73remt"
   add_foreign_key "ref_user_role", "tbl_user", name: "fk_ref_user_role_tbl_user1"
   add_foreign_key "tbl_account", "tbl_user", name: "fk_tbl_account_tbl_user1"
-  add_foreign_key "tbl_order", "ref_order_status", column: "ref_order_status_code", primary_key: "code", name: "fk_tbl_order_ref_order_status1"
-  add_foreign_key "tbl_order", "tbl_discount", column: "tbl_discount_code", primary_key: "code", name: "fk_tbl_order_tbl_discount1"
-  add_foreign_key "tbl_order", "tbl_payment", name: "fk_tbl_order_tbl_payment1"
+  add_foreign_key "tbl_order", "ref_order_status", column: "ref_order_status_code", primary_key: "code", name: "FKoclhloyidc9a1rmqb02jtn0u1"
+  add_foreign_key "tbl_order", "tbl_discount", column: "tbl_discount_code", primary_key: "code", name: "FKrv59e37b64umdr64e7bul7kb5"
+  add_foreign_key "tbl_order", "tbl_payment", name: "FK2w81k6x8i4qlm7abrqxv1wce9"
+  add_foreign_key "tbl_order_item", "ref_order_item_status", column: "ref_order_item_status_code", primary_key: "code", name: "FKkv4737wla3dk03gy15xv5khm0"
   add_foreign_key "tbl_order_item", "ref_order_item_status", column: "ref_order_item_status_code", primary_key: "code", name: "fk_tbl_order_item_ref_order_item_status1"
+  add_foreign_key "tbl_order_item", "tbl_order", name: "FKbwvxweep37lo58y373l5sea5w"
   add_foreign_key "tbl_order_item", "tbl_order", name: "fk_tbl_order_item_tbl_order1"
-  add_foreign_key "tbl_order_item", "tbl_product", name: "fk_tbl_order_item_tbl_product1"
   add_foreign_key "tbl_product", "tbl_category", name: "fk_tbl_product_tbl_category1"
   add_foreign_key "tbl_product_description", "tbl_product", name: "fk_tbl_product_description_tbl_product1"
   add_foreign_key "tbl_product_image", "tbl_product", name: "fk_tbl_product_image_tbl_product1"

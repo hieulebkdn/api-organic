@@ -1,5 +1,5 @@
 class V1::ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :update, :destroy]
+  before_action :set_product, only: [:show, :update, :destroy, :fetch_product_reviews]
   skip_before_action :authenticate_request
 
   # GET /products
@@ -36,6 +36,11 @@ class V1::ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
+  end
+
+  def fetch_product_reviews
+    @reviews = @product.reviews
+    render json: @reviews
   end
 
   private

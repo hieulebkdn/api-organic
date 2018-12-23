@@ -6,6 +6,7 @@ class Product < ApplicationRecord
   has_many :product_image, foreign_key: :tbl_product_id, dependent: :destroy
   has_many :order_item, foreign_key: :tbl_product_id, dependent: :destroy
   has_many :ref_shop_product, foreign_key: :tbl_product_id, dependent: :destroy
+  has_many :reviews, foreign_key: :tbl_product_id, dependent: :destroy
 
   validates :stock, numericality: {only_integer: true}
   validates :price, format: {with: VALID_COIN_REGEX}, numericality: true
