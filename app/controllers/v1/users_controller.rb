@@ -50,7 +50,7 @@ class V1::UsersController < ApplicationController
 
   def fetch_all_normal_users
     @user_ids = RefUserRole.where(tbl_role_id: 3).pluck(:tbl_user_id)
-    @users = User.select(:id,:email,:phone, :tbl_shop_id).get_in_list(@user_ids)
+    @users = User.select(:id,:email,:phone).get_in_list(@user_ids)
     render json: @users, :include => {:account => {:only => :name}}
   end
 
@@ -62,6 +62,6 @@ class V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:email, :phone, :password)
+      params.require(:user).permit(:email, :phone)
     end
   end
