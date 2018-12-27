@@ -16,5 +16,3 @@ class JsonWebToken
 
  end
 end
-
-

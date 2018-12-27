@@ -49,6 +49,15 @@
 list_user_ids = User.all.pluck :id
 list_product_ids = Product.all.pluck :id
 
+# 30.times do |n|
+#   Review.create! comment: Faker::Lorem.sentence, rating: Faker::Number.between(1,5), tbl_user_id: list_user_ids.sample, tbl_product_id: list_product_ids.sample
+# end
+
+# 30.times do |n|
+#   Wishlist.create! user_id: list_user_ids.sample, product_id: list_product_ids.sample
+# end
+
 20.times do |n|
-  Review.create! comment: Faker::Lorem.sentence, rating: Faker::Number.between(1,5), tbl_user_id: list_user_ids.sample, tbl_product_id: list_product_ids.sample
+  Order.create! owner_name: Faker::LeagueOfLegends.champion,
+    owner_email: "buyer-#{n+1}@gmail.com", owner_phone: Faker::PhoneNumber.cell_phone, owner_address: Faker::Address.street_address
 end

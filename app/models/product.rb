@@ -7,8 +7,9 @@ class Product < ApplicationRecord
   has_many :order_item, foreign_key: :tbl_product_id, dependent: :destroy
   has_many :ref_shop_product, foreign_key: :tbl_product_id, dependent: :destroy
   has_many :reviews, foreign_key: :tbl_product_id, dependent: :destroy
+  has_many :order_items, foreign_key: :tbl_product_id, dependent: :destroy
 
-  validates :stock, numericality: {only_integer: true}
+  validates :stock, numericality: {greater_than_or_equal_to: 0}
   validates :price, format: {with: VALID_COIN_REGEX}, numericality: true
 
   scope :search_by_name, ->(name){where "name LIKE CONCAT('%',?,'%')", name}

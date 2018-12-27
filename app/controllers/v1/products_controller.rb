@@ -39,8 +39,9 @@ class V1::ProductsController < ApplicationController
   end
 
   def fetch_product_reviews
-    @reviews = @product.reviews
-    render json: @reviews
+    review_ids = @product.reviews.pluck :id
+    @reviews = Review.fetch_review_in_list(review_ids)
+    render json: @reviews, :include => {:user => {:only => :email}}
   end
 
   private

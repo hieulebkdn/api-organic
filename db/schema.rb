@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.index ["tbl_user_id"], name: "fk_ref_user_role_tbl_user1_idx"
   end
 
+  create_table "reviews", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "comment"
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tbl_user_id", null: false
+    t.integer "tbl_product_id", null: false
+    t.integer "rproduct"
+    t.integer "ruser"
+    t.index ["tbl_user_id"], name: "index_reviews_on_tbl_user_id"
+  end
+
   create_table "tbl_account", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "city"
@@ -65,17 +77,22 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   create_table "tbl_discount", primary_key: "code", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "quantity"
     t.decimal "discount_number", precision: 3, scale: 2
+    t.integer "id", null: false
   end
 
   create_table "tbl_order", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "order_status_code", limit: 45
-    t.datetime "date_order_placed"
     t.integer "tbl_payment_id", null: false
-    t.string "ref_order_status_code", limit: 1
-    t.integer "tbl_discount_code", null: false
-    t.integer "tbl_user_id", null: false
+    t.string "ref_order_status_code", limit: 1, default: "w"
+    t.integer "tbl_discount_code"
+    t.integer "tbl_user_id"
+    t.string "owner_name", limit: 45, null: false
+    t.string "owner_email", null: false
+    t.string "owner_phone", null: false
+    t.string "owner_address", null: false
+    t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.timestamp "updated_at"
     t.index ["ref_order_status_code"], name: "a_idx"
-    t.index ["tbl_discount_code"], name: "aa_idx"
+    t.index ["tbl_discount_code"], name: "FKrv59e37b64umdr64e7bul7kb5"
     t.index ["tbl_payment_id"], name: "aaa_idx"
   end
 
@@ -108,6 +125,9 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.binary "avatar"
     t.integer "rating", default: 5, null: false
     t.integer "buy", null: false
+    t.string "sname"
+    t.string "description"
+    t.integer "sid"
     t.index ["sku"], name: "sku_UNIQUE", unique: true
     t.index ["tbl_category_id"], name: "fk_tbl_product_tbl_category1_idx"
   end
@@ -148,10 +168,20 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.integer "tbl_shop_id"
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.timestamp "updated_at"
+    t.string "password"
+    t.string "username"
     t.index ["email"], name: "email_UNIQUE", unique: true
     t.index ["phone"], name: "phone_UNIQUE", unique: true
     t.index ["tbl_rank_id"], name: "fk_tbl_user_tbl_rank1_idx"
     t.index ["tbl_shop_id"], name: "fk_tbl_user_tbl_shop1_idx"
+  end
+
+  create_table "wishlists", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
   end
 
   add_foreign_key "ref_role_permission", "tbl_permission", name: "fk_ref_role_permission_tbl_permission1"
