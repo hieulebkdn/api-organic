@@ -19,7 +19,18 @@ class V1::OrderItemsController < ApplicationController
 
   def fetch_order_items
     @order_items = OrderItem.fetch_items_in_order(params[:id])
-    render json: @order_items
+    @list_order_items_ids  = @order_items.pluck :tbl_product_id
+    @list_product_name = []
+
+    @list_order_items_ids.each do |n|
+      product_name = Product.where(id: n).first[:name]
+      @list_product_name.push(product_name)
+    end
+    @list_order_items = []
+    render json: {
+      order_item: @order_items,
+      product_name: @list_product_name
+    }
   end
 
   def add_items_to_order

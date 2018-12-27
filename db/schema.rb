@@ -49,12 +49,13 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   create_table "reviews", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "comment"
     t.integer "rating"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "tbl_user_id", null: false
     t.integer "tbl_product_id", null: false
+    t.string "remail"
     t.integer "rproduct"
     t.integer "ruser"
+    t.index ["tbl_product_id"], name: "FK8g0gnbqjy2cf7s1028ppl5hur"
     t.index ["tbl_user_id"], name: "index_reviews_on_tbl_user_id"
   end
 
@@ -81,7 +82,7 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   end
 
   create_table "tbl_order", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "tbl_payment_id", null: false
+    t.integer "tbl_payment_id", default: 1, null: false
     t.string "ref_order_status_code", limit: 1, default: "w"
     t.integer "tbl_discount_code"
     t.integer "tbl_user_id"
@@ -96,11 +97,11 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
     t.index ["tbl_payment_id"], name: "aaa_idx"
   end
 
-  create_table "tbl_order_item", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "quantity", limit: 2
+  create_table "tbl_order_item", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "quantity", limit: 2, default: 1, null: false
     t.integer "tbl_order_id", null: false
     t.integer "tbl_product_id", null: false
-    t.string "ref_order_item_status_code", limit: 1, null: false
+    t.string "ref_order_item_status_code", limit: 1, default: "a", null: false
     t.index ["ref_order_item_status_code"], name: "fk_tbl_order_item_ref_order_item_status1_idx"
     t.index ["tbl_order_id"], name: "fk_tbl_order_item_tbl_order1_idx"
   end
@@ -177,8 +178,6 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   end
 
   create_table "wishlists", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.integer "product_id", null: false
     t.index ["user_id"], name: "index_wishlists_on_user_id"
@@ -194,14 +193,14 @@ ActiveRecord::Schema.define(version: 2018_12_16_030749) do
   add_foreign_key "ref_user_role", "tbl_role", name: "fk_ref_user_role_tbl_role1"
   add_foreign_key "ref_user_role", "tbl_user", name: "FKqvs4e1phqw2en9iuboc73remt"
   add_foreign_key "ref_user_role", "tbl_user", name: "fk_ref_user_role_tbl_user1"
+  add_foreign_key "reviews", "tbl_product", name: "FK8g0gnbqjy2cf7s1028ppl5hur"
+  add_foreign_key "reviews", "tbl_user", name: "FKcvrqlpnhoicrpcv3y0c8okvse"
   add_foreign_key "tbl_account", "tbl_user", name: "fk_tbl_account_tbl_user1"
   add_foreign_key "tbl_order", "ref_order_status", column: "ref_order_status_code", primary_key: "code", name: "FKoclhloyidc9a1rmqb02jtn0u1"
   add_foreign_key "tbl_order", "tbl_discount", column: "tbl_discount_code", primary_key: "code", name: "FKrv59e37b64umdr64e7bul7kb5"
   add_foreign_key "tbl_order", "tbl_payment", name: "FK2w81k6x8i4qlm7abrqxv1wce9"
   add_foreign_key "tbl_order_item", "ref_order_item_status", column: "ref_order_item_status_code", primary_key: "code", name: "FKkv4737wla3dk03gy15xv5khm0"
   add_foreign_key "tbl_order_item", "ref_order_item_status", column: "ref_order_item_status_code", primary_key: "code", name: "fk_tbl_order_item_ref_order_item_status1"
-  add_foreign_key "tbl_order_item", "tbl_order", name: "FKbwvxweep37lo58y373l5sea5w"
-  add_foreign_key "tbl_order_item", "tbl_order", name: "fk_tbl_order_item_tbl_order1"
   add_foreign_key "tbl_product", "tbl_category", name: "fk_tbl_product_tbl_category1"
   add_foreign_key "tbl_product_description", "tbl_product", name: "fk_tbl_product_description_tbl_product1"
   add_foreign_key "tbl_product_image", "tbl_product", name: "fk_tbl_product_image_tbl_product1"
