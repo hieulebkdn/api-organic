@@ -1,7 +1,6 @@
 class V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
-  skip_before_action :authenticate_request
-  # before_action :authenticate_admin
+  skip_before_action :authenticate_request, except: :fetch_all_moderators
 
   # GET /users
   def index

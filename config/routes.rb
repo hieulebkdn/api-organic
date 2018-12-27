@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'accounts/:id', to: 'accounts#show'
     get 'product-reviews/:id', to: 'products#fetch_product_reviews'
 
+    get 'user-order/:id', to: 'orders#show_user_orders'
     get 'order-items/:id', to: 'order_items#fetch_order_items'
     post 'add-order-items/:id',to: 'order_items#add_items_to_order'
   end
