@@ -1,5 +1,5 @@
 class Review < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   delegate :email, to: :user, allow_nil: true, prefix: true
 
   scope :fetch_review_in_list, ->(list_ids){where "id IN (?)", list_ids}

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get 'user-order/:id', to: 'orders#show_user_orders'
     get 'order-items/:id', to: 'order_items#fetch_order_items'
     post 'add-order-items/:id',to: 'order_items#add_items_to_order'
+    post 'change-password', to: 'password#update'
   end
   post 'authenticate', to: 'authentication#authenticate'
 end
