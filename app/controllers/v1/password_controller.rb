@@ -6,7 +6,7 @@ class V1::PasswordController < ApplicationController
       @current_user.save!
       render json: {message: "Password change succesfully!"}, status: :ok
     else
-      render json: {error: "Old password incorrect!"}, status: :unauthorized
+      render json: {error: "Old password incorrect!"}, status: :not_acceptable
     end
   end
 end

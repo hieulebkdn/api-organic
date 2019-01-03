@@ -13,4 +13,8 @@ class ApplicationController < ActionController::API
     render json: { error: "You don't have permission to perform this action!" }, status: 401 unless @current_user.id == 1
   end
 
+  def authorize_user
+    @current_user = AuthorizeApiRequest.call(request.headers).result
+  end
+
 end
